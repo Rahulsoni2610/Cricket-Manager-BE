@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  name: MyString
+  start_date: 2025-04-13
+  end_date: 2025-04-13
+  tournament_type: MyString
+  status: MyString
+
+two:
+  user: two
+  name: MyString
+  start_date: 2025-04-13
+  end_date: 2025-04-13
+  tournament_type: MyString
+  status: MyString

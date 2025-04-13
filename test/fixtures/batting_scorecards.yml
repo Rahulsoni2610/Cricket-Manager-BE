@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inning: one
+  player: one
+  runs: 1
+  balls: 1
+  fours: 1
+  sixes: 1
+  how_out: MyString
+  bowler: one
+  fielder: one
+  batting_position: 1
+
+two:
+  inning: two
+  player: two
+  runs: 1
+  balls: 1
+  fours: 1
+  sixes: 1
+  how_out: MyString
+  bowler: two
+  fielder: two
+  batting_position: 1
