@@ -35,14 +35,21 @@ end
 
 # Create 2 tournaments
 tournaments = 2.times.map do |i|
-  Tournament.create!(
+  tournament = Tournament.create!(
     user: user,
     name: "Tournament #{i + 1}",
     start_date: Date.today + i,
     end_date: Date.today + 30 + i,
-    tournament_type: "Knockout",
+    tournament_type: Tournament::tournament_types.keys.sample,
     status: "Scheduled"
   )
+
+  # Associate teams with the tournament
+  teams.sample(2).each do |team|  # Randomly select 2 teams for each tournament
+    tournament.teams << team
+  end
+
+  tournament
 end
 
 # Create 2 series per tournament
