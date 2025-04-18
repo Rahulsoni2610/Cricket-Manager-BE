@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_13_084110) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_16_095939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,7 +95,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_13_084110) do
 
   create_table "players", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "team_id", null: false
     t.string "first_name"
     t.string "last_name"
     t.date "date_of_birth"
@@ -104,13 +103,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_13_084110) do
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_players_on_team_id"
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "series", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "tournament_id", null: false
     t.string "name"
     t.date "start_date"
     t.date "end_date"
@@ -118,8 +115,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_13_084110) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tournament_id"], name: "index_series_on_tournament_id"
     t.index ["user_id"], name: "index_series_on_user_id"
+  end
+
+  create_table "team_tournament_players", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "team_id", null: false
+    t.bigint "tournament_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "team_id", "tournament_id"], name: "index_unique_team_tournament_players", unique: true
+    t.index ["player_id"], name: "index_team_tournament_players_on_player_id"
+    t.index ["team_id"], name: "index_team_tournament_players_on_team_id"
+    t.index ["tournament_id"], name: "index_team_tournament_players_on_tournament_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -127,10 +135,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_13_084110) do
     t.string "name"
     t.string "logo_url"
     t.string "home_ground"
+    t.bigint "captain_id"
+    t.bigint "vice_captain_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["captain_id"], name: "index_teams_on_captain_id"
     t.index ["name"], name: "index_teams_on_name", unique: true
     t.index ["user_id"], name: "index_teams_on_user_id"
+    t.index ["vice_captain_id"], name: "index_teams_on_vice_captain_id"
   end
 
   create_table "tournaments", force: :cascade do |t|
@@ -178,10 +190,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_13_084110) do
   add_foreign_key "matches", "teams", column: "winning_team_id"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "matches", "users"
-  add_foreign_key "players", "teams"
   add_foreign_key "players", "users"
-  add_foreign_key "series", "tournaments"
   add_foreign_key "series", "users"
+  add_foreign_key "team_tournament_players", "players"
+  add_foreign_key "team_tournament_players", "teams"
+  add_foreign_key "team_tournament_players", "tournaments"
+  add_foreign_key "teams", "players", column: "captain_id"
+  add_foreign_key "teams", "players", column: "vice_captain_id"
   add_foreign_key "teams", "users"
   add_foreign_key "tournaments", "users"
 end

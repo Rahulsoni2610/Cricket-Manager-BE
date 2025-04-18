@@ -5,6 +5,9 @@ class CreateTeams < ActiveRecord::Migration[7.1]
       t.string :name
       t.string :logo_url
       t.string :home_ground
+      t.references :captain, foreign_key: { to_table: :players }
+      t.references :vice_captain, foreign_key: { to_table: :players }
+
 
       t.timestamps
     end

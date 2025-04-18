@@ -1,9 +1,12 @@
 # app/models/team.rb
 class Team < ApplicationRecord
   belongs_to :user
-  has_many :players, dependent: :destroy
-  has_many :home_matches, class_name: 'Match', foreign_key: 'team1_id', dependent: :nullify
-  has_many :away_matches, class_name: 'Match', foreign_key: 'team2_id', dependent: :nullify
+  belongs_to :captain, class_name: 'Player', optional: true
+  belongs_to :vice_captain, class_name: 'Player', optional: true
+
+  has_many :team_tournament_players, dependent: :destroy
+  has_many :players, through: :team_tournament_players
+  has_many :tournaments, through: :team_tournament_players
 
   validates :name, presence: true, uniqueness: { scope: :user_id }
 end
