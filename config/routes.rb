@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, skip: [:registrations, :sessions, :passwords]
 
-  # Wrap your custom auth routes in devise_scope
   devise_scope :user do
     namespace :api do
       namespace :v1 do
@@ -16,9 +15,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'dashboard', to: 'dashboard#index'
       resources :teams
-      resources :players
+      resources :players, except: [:new, :edit]
       resources :tournaments do
-        resources :series
         resources :matches
       end
 

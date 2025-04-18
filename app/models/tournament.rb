@@ -4,6 +4,10 @@ class Tournament < ApplicationRecord
   has_many :tournament_teams, dependent: :destroy
   has_many :teams, through: :tournament_teams
 
+  has_many :team_tournament_players, dependent: :destroy
+  has_many :players, through: :team_tournament_players
+  has_many :teams, through: :team_tournament_players
+
   validates :name, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
