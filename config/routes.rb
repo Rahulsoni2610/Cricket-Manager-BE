@@ -14,8 +14,15 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'dashboard', to: 'dashboard#index'
-      resources :teams
-      resources :players, except: [:new, :edit]
+      resources :teams do
+        get 'players', on: :member
+        patch 'roles', on: :member
+      end
+      resources :players do
+        collection do
+          get 'available'
+        end
+      end
       resources :tournaments do
         resources :matches
       end
@@ -27,6 +34,7 @@ Rails.application.routes.draw do
       resources :matches do
         resources :innings
       end
+      resources :team_tournament_players, only: [:create, :destroy]
     end
   end
 end
