@@ -145,12 +145,23 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_16_095939) do
     t.index ["vice_captain_id"], name: "index_teams_on_vice_captain_id"
   end
 
+  create_table "tournament_teams", force: :cascade do |t|
+    t.bigint "tournament_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_tournament_teams_on_team_id"
+    t.index ["tournament_id", "team_id"], name: "index_tournament_teams_on_tournament_id_and_team_id", unique: true
+    t.index ["tournament_id"], name: "index_tournament_teams_on_tournament_id"
+  end
+
   create_table "tournaments", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
     t.date "start_date"
     t.date "end_date"
-    t.string "tournament_type"
+    t.integer "tournament_type"
+    t.integer "total_teams"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -198,5 +209,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_16_095939) do
   add_foreign_key "teams", "players", column: "captain_id"
   add_foreign_key "teams", "players", column: "vice_captain_id"
   add_foreign_key "teams", "users"
+  add_foreign_key "tournament_teams", "teams"
+  add_foreign_key "tournament_teams", "tournaments"
   add_foreign_key "tournaments", "users"
 end

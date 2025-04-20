@@ -1,7 +1,7 @@
 module Api
   module V1
     class TeamsController < BaseController
-      before_action :set_team, only: [:show, :update, :destroy]
+      before_action :set_team, only: [:show, :update, :destroy, :players]
 
       def index
         @teams = Team.all
@@ -36,11 +36,30 @@ module Api
         head :no_content
       end
 
+      def players
+        players = @team.players
+          .joins(:team_tournament_players)
+          .where(team_tournament_players: { tournament_id: params[:tournament_id] })
+          .distinct
+
+        render json: players
+      end
+
+      def roles
+        if @team.update(
+          captain_id: params[:captain_id],
+          vice_captain_id: params[:vice_captain_id]
+        )
+          head :no_content
+        else
+          render json: { errors: @team.errors }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def set_team
         @team = Team.find(params[:id])
-        authorize @team
       end
 
       def team_params

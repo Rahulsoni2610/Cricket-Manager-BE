@@ -8,5 +8,5 @@ class Team < ApplicationRecord
   has_many :players, through: :team_tournament_players
   has_many :tournaments, through: :team_tournament_players
 
-  validates :name, presence: true, uniqueness: { scope: :user_id }
+  # validates :name, presence: true, uniqueness: { scope: :user_id }
 end
