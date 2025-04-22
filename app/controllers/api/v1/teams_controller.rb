@@ -63,7 +63,7 @@ module Api
       end
 
       def team_params
-        params.require(:team).permit(:name, :logo_url, :home_ground)
+        params.require(:team).permit(:name, :logo_url, :home_ground, :captain_id, :vice_captain_id)
       end
     end
   end

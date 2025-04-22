@@ -160,8 +160,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_16_095939) do
     t.string "name"
     t.date "start_date"
     t.date "end_date"
-    t.integer "tournament_type"
-    t.integer "total_teams"
+    t.string "tournament_type"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
