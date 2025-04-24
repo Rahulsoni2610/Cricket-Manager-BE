@@ -4,7 +4,7 @@ module Api
       before_action :set_player, only: [:show, :update, :destroy]
 
       def index
-        @players = Player.all
+        @players = Player.where("first_name ILIKE :search OR last_name ILIKE :search", search: "%#{params[:search]}%")
         render json: @players
       end
 
