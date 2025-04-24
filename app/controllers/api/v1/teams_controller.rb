@@ -14,8 +14,6 @@ module Api
 
       def create
         @team = current_user.teams.new(team_params)
-        authorize @team
-
         if @team.save
           render json: @team, status: :created
         else

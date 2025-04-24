@@ -53,3 +53,4 @@ gem 'rack-cors'
 gem 'pundit' # for authorization
 gem 'dotenv-rails'
 gem 'byebug'
+gem 'faker'
