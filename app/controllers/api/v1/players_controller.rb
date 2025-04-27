@@ -32,7 +32,7 @@ module Api
 
       def destroy
         @player.destroy
-        head :no_content
+        render json: @player, status: :ok
       end
 
       def available
@@ -61,8 +61,7 @@ module Api
           :batting_style,
           :bowling_style,
           :role,
-          team_ids: [],
-          tournament_ids: []
+          :picture
         )
       end
     end

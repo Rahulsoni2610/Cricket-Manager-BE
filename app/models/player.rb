@@ -4,6 +4,7 @@ class Player < ApplicationRecord
   has_many :team_tournament_players, dependent: :destroy
   has_many :teams, through: :team_tournament_players
   has_many :tournaments, through: :team_tournament_players
+  has_one_attached :picture
 
   BATTING_STYLES = %w[right_handed left_handed].freeze
   BOWLING_STYLES = %w[right_arm_fast right_arm_medium right_arm_spin left_arm_fast left_arm_medium left_arm_spin].freeze

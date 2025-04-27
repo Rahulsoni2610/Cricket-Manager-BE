@@ -14,4 +14,5 @@ class User < ApplicationRecord
   has_many :tournaments, dependent: :destroy
   has_many :series, dependent: :destroy
   has_many :matches, dependent: :destroy
+  has_one_attached :profile_picture
 end
