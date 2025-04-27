@@ -19,7 +19,7 @@ class Tournament < ApplicationRecord
   enum tournament_type: { round_robin: 0, knockout: 1, league: 2, single_elimination: 3 }
 
 
-  after_save :generate_or_update_matches, if: :saved_change_to_tournament_type?
+  # after_save :generate_or_update_matches, if: :saved_change_to_tournament_type?
 
   before_destroy :delete_matches
 
@@ -35,6 +35,8 @@ class Tournament < ApplicationRecord
       generate_knockout_matches
     when 'league'
       generate_league_matches
+    when 'single_elimination'
+      generate_single_elimination_matches
     else
       raise 'Invalid tournament type'
     end
