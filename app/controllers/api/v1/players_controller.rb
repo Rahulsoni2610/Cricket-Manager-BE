@@ -5,11 +5,11 @@ module Api
 
       def index
         @players = Player.where("first_name ILIKE :search OR last_name ILIKE :search", search: "%#{params[:search]}%")
-        render json: @players
+        render json: @players.map { |player| player_data(player) }
       end
 
       def show
-        render json: @player
+        render json: player_data(@player)
       end
 
       def create
@@ -47,6 +47,12 @@ module Api
       end
 
       private
+
+      def player_data(player)
+        player.as_json.merge({
+          picture_url: player.picture.attached? ? url_for(player.picture) : nil
+        })
+      end
 
       def set_player
         @player = Player.find(params[:id])
