@@ -54,3 +54,5 @@ gem 'pundit' # for authorization
 gem 'dotenv-rails'
 gem 'byebug'
 gem 'faker'
+gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
