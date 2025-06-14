@@ -1,4 +1,4 @@
-name: "Rails API CI"
+name: "CricManager App CI"
 
 on:
   push:
@@ -7,7 +7,36 @@ on:
     branches: ["main"]
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+    env:
+      RAILS_ENV: test
+      DEVISE_JWT_SECRET_KEY: dummy_secret_for_ci
+      DATABASE_URL: postgres://rails:password@localhost:5432/rails_test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+          bundler-cache: true
+
+      - name: Run DB migrations (validate)
+        run: bin/rails db:prepare
+
   test:
+    needs: setup
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -42,7 +71,6 @@ jobs:
       - name: Set up database
         run: |
           cp config/database.yml.ci config/database.yml
-          bin/rails db:create
           bin/rails db:schema:load
 
       - name: Run RSpec tests
