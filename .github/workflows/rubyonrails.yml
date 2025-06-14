@@ -26,6 +26,7 @@ jobs:
 
     env:
       RAILS_ENV: test
+      DEVISE_JWT_SECRET_KEY: dummy_secret_for_ci
       DATABASE_URL: postgres://rails:password@localhost:5432/rails_test
 
     steps:
