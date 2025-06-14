@@ -1,4 +1,3 @@
-# app/models/match.rb
 class Match < ApplicationRecord
   belongs_to :user
   belongs_to :series, optional: true

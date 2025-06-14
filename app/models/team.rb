@@ -1,4 +1,3 @@
-# app/models/team.rb
 class Team < ApplicationRecord
   belongs_to :user
   belongs_to :captain, class_name: 'Player', optional: true
