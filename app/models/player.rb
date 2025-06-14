@@ -1,4 +1,3 @@
-# app/models/player.rb
 class Player < ApplicationRecord
   belongs_to :user
   has_many :team_tournament_players, dependent: :destroy

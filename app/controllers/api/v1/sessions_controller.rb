@@ -1,4 +1,3 @@
-# app/controllers/api/v1/users/sessions_controller.rb
 module Api
   module V1
     class SessionsController < Devise::SessionsController
