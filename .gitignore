@@ -33,3 +33,4 @@
 /config/master.key
 .byebug_history
 /config/database.yml
+/coverage/*
