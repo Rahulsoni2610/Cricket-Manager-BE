@@ -45,6 +45,13 @@ group :development do
   # gem "spring"
 end
 
+group :test do
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'database_cleaner-active_record'
+  gem 'shoulda-matchers'
+end
+
 # Gemfile
 gem 'active_model_serializers'
 gem 'devise'
@@ -56,3 +63,4 @@ gem 'byebug'
 gem 'faker'
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
+gem 'rspec-rails', '~> 6.0'
