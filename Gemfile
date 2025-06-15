@@ -48,7 +48,6 @@ end
 group :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner-active_record'
-  gem 'shoulda-matchers'
   gem 'simplecov', require: false
 end
 
@@ -65,3 +64,4 @@ gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 gem 'rspec-rails', '~> 6.0'
 gem 'annotate'
+gem 'shoulda-matchers'
