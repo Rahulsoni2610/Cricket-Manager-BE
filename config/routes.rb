@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         resources :innings
       end
       resources :team_tournament_players, only: [:create, :destroy]
+      resource :users
     end
   end
 end

@@ -1,5 +1,4 @@
 class Api::V1::TournamentsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_tournament, only: [:update, :destroy]
 
   def index

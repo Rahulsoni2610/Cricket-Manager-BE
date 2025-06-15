@@ -1,6 +1,10 @@
 # Create a user to associate with the tournament
-user = User.find_or_create_by!(email: 'testuser@example.com', username: 'testuser') do |u|
+user = User.find_or_create_by!(email: 'admin@example.com', first_name: 'Rahul') do |u|
+  u.last_name = 'Soni'
   u.password = 'password'
+  u.phone = "9999998881"
+  u.date_of_birth = 20.years.ago
+  u.address = "ABC colony"
 end
 
 # Create teams
@@ -27,10 +31,6 @@ tournament = Tournament.create!(
   user: user
 )
 
-# Associate teams with the tournament
-TournamentTeam.create!(tournament: tournament, team: team1)
-TournamentTeam.create!(tournament: tournament, team: team2)
-
 # Associate players with the tournament through teams
 TeamTournamentPlayer.create!(tournament: tournament, team: team1, player: player1)
 TeamTournamentPlayer.create!(tournament: tournament, team: team2, player: player2)
@@ -38,13 +38,6 @@ TeamTournamentPlayer.create!(tournament: tournament, team: team2, player: player
 require 'faker'
 
 puts "Seeding new data..."
-
-# Create one user
-user = User.find_or_create_by(
-  email: "admin@example.com",
-  encrypted_password: "password",
-  username: "admin"
-)
 
 # Create players
 100.times do

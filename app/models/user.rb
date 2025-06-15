@@ -32,7 +32,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
   has_many :teams, dependent: :destroy

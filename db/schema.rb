@@ -173,16 +173,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.index ["vice_captain_id"], name: "index_teams_on_vice_captain_id"
   end
 
-  create_table "tournament_teams", force: :cascade do |t|
-    t.bigint "tournament_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_tournament_teams_on_team_id"
-    t.index ["tournament_id", "team_id"], name: "index_tournament_teams_on_tournament_id_and_team_id", unique: true
-    t.index ["tournament_id"], name: "index_tournament_teams_on_tournament_id"
-  end
-
   create_table "tournaments", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
@@ -204,12 +194,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone"
+    t.datetime "date_of_birth"
+    t.string "address"
     t.string "jti"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["first_name"], name: "index_users_on_first_name", unique: true
     t.index ["jti"], name: "index_users_on_jti"
+    t.index ["last_name"], name: "index_users_on_last_name", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -239,7 +234,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
   add_foreign_key "teams", "players", column: "captain_id"
   add_foreign_key "teams", "players", column: "vice_captain_id"
   add_foreign_key "teams", "users"
-  add_foreign_key "tournament_teams", "teams"
-  add_foreign_key "tournament_teams", "tournaments"
   add_foreign_key "tournaments", "users"
 end
