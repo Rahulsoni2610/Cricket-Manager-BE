@@ -64,3 +64,4 @@ gem 'faker'
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 gem 'rspec-rails', '~> 6.0'
+gem 'annotate'
