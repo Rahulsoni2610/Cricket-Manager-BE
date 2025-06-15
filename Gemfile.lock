@@ -83,6 +83,9 @@ GEM
       mutex_m
       securerandom (>= 0.3)
       tzinfo (~> 2.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.20)
@@ -326,6 +329,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  annotate
   bootsnap
   byebug
   database_cleaner-active_record
