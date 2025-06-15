@@ -1,6 +1,4 @@
 class Api::V1::TeamTournamentPlayersController < ApplicationController
-  before_action :authenticate_user!
-
   def create
     TeamTournamentPlayer.transaction do
       TeamTournamentPlayer.where(

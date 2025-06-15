@@ -24,8 +24,6 @@
 class Tournament < ApplicationRecord
   belongs_to :user
   has_many :matches, dependent: :destroy
-  has_many :tournament_teams, dependent: :destroy
-  has_many :teams, through: :tournament_teams
 
   has_many :team_tournament_players, dependent: :destroy
   has_many :players, through: :team_tournament_players
