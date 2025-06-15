@@ -49,6 +49,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner-active_record'
   gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
 end
 
 # Gemfile

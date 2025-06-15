@@ -1,4 +1,17 @@
-# spec/rails_helper.rb
+require 'simplecov'
+require 'simplecov-lcov'
+
+SimpleCov::Formatter::LcovFormatter.config do |c|
+  c.report_with_single_file = true
+  c.output_directory = 'coverage'
+  c.lcov_file_name = 'lcov.info'
+end
+
+SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+
+SimpleCov.start 'rails' do
+  add_filter '/spec/'
+end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
