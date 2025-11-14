@@ -66,3 +66,4 @@ gem 'rubocop-rails', require: false
 gem 'rspec-rails', '~> 6.0'
 gem 'annotate'
 gem 'shoulda-matchers'
+gem 'rswag'
