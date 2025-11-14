@@ -95,10 +95,14 @@ GEM
     bigdecimal (3.2.2)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
+    brakeman (7.1.1)
+      racc
     builder (3.3.0)
     byebug (12.0.0)
     case_transform (0.2)
       activesupport
+    childprocess (5.1.0)
+      logger (~> 1.5)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
     crass (1.0.6)
@@ -148,6 +152,7 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    iniparse (1.5.0)
     io-console (0.8.0)
     irb (1.15.2)
       pp (>= 0.6.0)
@@ -193,6 +198,10 @@ GEM
     nokogiri (1.18.7-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    overcommit (0.68.0)
+      childprocess (>= 0.6.3, < 6)
+      iniparse (~> 1.4)
+      rexml (>= 3.3.9)
     parallel (1.27.0)
     parser (3.3.8.0)
       ast (~> 2.4.1)
@@ -260,6 +269,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
+    rexml (3.4.4)
     rspec-core (3.13.4)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -353,6 +363,7 @@ DEPENDENCIES
   active_model_serializers
   annotate
   bootsnap
+  brakeman
   byebug
   database_cleaner-active_record
   debug
@@ -361,6 +372,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  overcommit
   pg (~> 1.1)
   puma (>= 5.0)
   pundit

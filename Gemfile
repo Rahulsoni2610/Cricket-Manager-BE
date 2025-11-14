@@ -43,6 +43,8 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'overcommit'
+  gem 'brakeman'
 end
 
 group :test do
