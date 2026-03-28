@@ -35,10 +35,15 @@ module Api
       end
 
       def players
-        players = @team.players
-          .joins(:team_tournament_players)
-          .where(team_tournament_players: { tournament_id: params[:tournament_id] })
-          .distinct
+        players = if params[:tournament_id].present?
+                    @team.players
+                      .joins(:team_tournament_players)
+                      .where(team_tournament_players: { tournament_id: params[:tournament_id] })
+                      .distinct
+                  else
+                    # Fallback for friendly matches or simple listing
+                    @team.players
+                  end
 
         render json: players
       end
