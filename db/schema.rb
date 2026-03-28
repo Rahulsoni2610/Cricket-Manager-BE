@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_18_133500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "balls", force: :cascade do |t|
+    t.bigint "over_id", null: false
+    t.integer "ball_number"
+    t.integer "runs"
+    t.string "extra_type"
+    t.boolean "is_wicket"
+    t.bigint "batsman_id", null: false
+    t.bigint "bowler_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "dismissal_type"
+    t.bigint "fielder_id"
+    t.boolean "is_bye", default: false, null: false
+    t.index ["batsman_id"], name: "index_balls_on_batsman_id"
+    t.index ["bowler_id"], name: "index_balls_on_bowler_id"
+    t.index ["fielder_id"], name: "index_balls_on_fielder_id"
+    t.index ["over_id"], name: "index_balls_on_over_id"
+  end
+
   create_table "batting_scorecards", force: :cascade do |t|
     t.bigint "inning_id", null: false
     t.bigint "player_id", null: false
@@ -55,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.integer "batting_position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_striking", default: false
     t.index ["bowler_id"], name: "index_batting_scorecards_on_bowler_id"
     t.index ["fielder_id"], name: "index_batting_scorecards_on_fielder_id"
     t.index ["inning_id"], name: "index_batting_scorecards_on_inning_id"
@@ -93,6 +113,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.index ["match_id"], name: "index_innings_on_match_id"
   end
 
+  create_table "match_players", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.bigint "team_id", null: false
+    t.bigint "player_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id", "player_id"], name: "index_match_players_on_match_id_and_player_id", unique: true
+    t.index ["match_id"], name: "index_match_players_on_match_id"
+    t.index ["player_id"], name: "index_match_players_on_player_id"
+    t.index ["team_id"], name: "index_match_players_on_team_id"
+  end
+
   create_table "matches", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "series_id"
@@ -111,6 +143,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.bigint "man_of_the_match_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "batting_team_id"
+    t.bigint "bowling_team_id"
+    t.integer "total_overs"
+    t.string "match_name"
+    t.integer "players_per_side"
+    t.index ["batting_team_id"], name: "index_matches_on_batting_team_id"
+    t.index ["bowling_team_id"], name: "index_matches_on_bowling_team_id"
     t.index ["man_of_the_match_id"], name: "index_matches_on_man_of_the_match_id"
     t.index ["series_id"], name: "index_matches_on_series_id"
     t.index ["team1_id"], name: "index_matches_on_team1_id"
@@ -119,6 +158,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
     t.index ["user_id"], name: "index_matches_on_user_id"
     t.index ["winning_team_id"], name: "index_matches_on_winning_team_id"
+  end
+
+  create_table "overs", force: :cascade do |t|
+    t.bigint "inning_id", null: false
+    t.integer "over_number"
+    t.bigint "bowler_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bowler_id"], name: "index_overs_on_bowler_id"
+    t.index ["inning_id"], name: "index_overs_on_inning_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -209,6 +258,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "balls", "overs"
+  add_foreign_key "balls", "players", column: "batsman_id"
+  add_foreign_key "balls", "players", column: "bowler_id"
+  add_foreign_key "balls", "players", column: "fielder_id"
   add_foreign_key "batting_scorecards", "innings"
   add_foreign_key "batting_scorecards", "players"
   add_foreign_key "batting_scorecards", "players", column: "bowler_id"
@@ -218,14 +271,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_122143) do
   add_foreign_key "innings", "matches"
   add_foreign_key "innings", "teams", column: "batting_team_id"
   add_foreign_key "innings", "teams", column: "bowling_team_id"
+  add_foreign_key "match_players", "matches"
+  add_foreign_key "match_players", "players"
+  add_foreign_key "match_players", "teams"
   add_foreign_key "matches", "players", column: "man_of_the_match_id"
   add_foreign_key "matches", "series"
+  add_foreign_key "matches", "teams", column: "batting_team_id"
+  add_foreign_key "matches", "teams", column: "bowling_team_id"
   add_foreign_key "matches", "teams", column: "team1_id"
   add_foreign_key "matches", "teams", column: "team2_id"
   add_foreign_key "matches", "teams", column: "toss_winner_id"
   add_foreign_key "matches", "teams", column: "winning_team_id"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "matches", "users"
+  add_foreign_key "overs", "innings"
+  add_foreign_key "overs", "players", column: "bowler_id"
   add_foreign_key "players", "users"
   add_foreign_key "series", "users"
   add_foreign_key "team_tournament_players", "players"

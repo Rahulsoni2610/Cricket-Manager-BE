@@ -31,4 +31,9 @@ class Inning < ApplicationRecord
   belongs_to :match
   belongs_to :batting_team, class_name: 'Team', foreign_key: 'batting_team_id'
   belongs_to :bowling_team, class_name: 'Team', foreign_key: 'bowling_team_id'
+
+  has_many :overs, dependent: :destroy
+  has_many :balls, through: :overs
+  has_many :batting_scorecards, dependent: :destroy
+  has_many :bowling_scorecards, dependent: :destroy
 end

@@ -4,7 +4,14 @@ module Api
       before_action :set_player, only: [:show, :update, :destroy]
 
       def index
-        @players = Player.where("first_name ILIKE :search OR last_name ILIKE :search", search: "%#{params[:search]}%")
+        search_term = "%#{params[:search]}%"
+        # Eager-load Active Storage attachments to avoid N+1 queries when
+        # calling `player.picture.attached?` / `url_for(player.picture)` below.
+        @players = Player.with_attached_picture.where(
+          "first_name ILIKE :search OR last_name ILIKE :search",
+          search: search_term
+        )
+
         render json: @players.map { |player| player_data(player) }
       end
 

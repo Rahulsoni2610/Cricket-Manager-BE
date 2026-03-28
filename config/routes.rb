@@ -34,7 +34,14 @@ Rails.application.routes.draw do
       end
 
       resources :matches do
-        resources :innings
+        post 'start', on: :member
+        post 'score', on: :member
+        post 'initialize_inning', on: :member
+        post 'undo', on: :member
+        resources :innings do
+          post 'add_batsman', on: :member
+        end
+        resources :overs, only: [:create]
       end
       resources :team_tournament_players, only: [:create, :destroy]
       resource :users

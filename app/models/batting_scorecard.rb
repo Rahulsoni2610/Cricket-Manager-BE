@@ -7,6 +7,7 @@
 #  batting_position :integer
 #  fours            :integer          default(0)
 #  how_out          :string
+#  is_striking      :boolean          default(FALSE)
 #  runs             :integer          default(0)
 #  sixes            :integer          default(0)
 #  created_at       :datetime         not null
@@ -33,6 +34,6 @@
 class BattingScorecard < ApplicationRecord
   belongs_to :inning
   belongs_to :player
-  belongs_to :bowler, class_name: 'Player', foreign_key: 'bowler_id'
-  belongs_to :fielder, class_name: 'Player', foreign_key: 'fielder_id'
+  belongs_to :bowler, class_name: 'Player', foreign_key: 'bowler_id', optional: true
+  belongs_to :fielder, class_name: 'Player', foreign_key: 'fielder_id', optional: true
 end
