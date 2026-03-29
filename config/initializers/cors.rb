@@ -1,6 +1,6 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'supervisor-skirts-sleep-florence.trycloudflare.com' # Explicitly specify your frontend origin
+    origins 'localhost:5173' # Explicitly specify your frontend origin
 
     resource '*',
       headers: :any,
