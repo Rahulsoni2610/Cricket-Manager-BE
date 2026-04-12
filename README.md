@@ -75,3 +75,24 @@ If you change `Gemfile` or `package.json`, you generally just need to rebuild th
 ```bash
 docker-compose up --build
 ```
+
+**Interactive Debugging (binding.pry / debugger):**
+The backend container is configured with `stdin_open` and `tty`, allowing you to attach to it and interact with debuggers.
+When your code hits a `debugger` or `binding.pry`:
+1. Open a new terminal.
+2. Attach to the backend container:
+   ```bash
+   docker attach cricket_backend
+   ```
+3. You will be dropped into the interactive ruby console.
+*Note: To detach without killing the server, press `Ctrl+P` followed by `Ctrl+Q`. Do not press `Ctrl+C`!*
+
+**Testing on External Devices With Cloudflare Tunnel:**
+We've included a `cloudflare_tunnel` service to expose the frontend to the internet easily (no account or auth token required!).
+1. Start the services with `docker-compose up`.
+2. Check the tunnel logs to find your public URL by running:
+   ```bash
+   docker-compose logs cloudflare_tunnel | grep trycloudflare
+   ```
+3. Look for a URL that looks like `https://something.trycloudflare.com` and open it on your device.
+*Note: If you want to expose the backend instead, edit the `cloudflare_tunnel` service `command` in `docker-compose.yml` to point to `http://backend:3000`.*
